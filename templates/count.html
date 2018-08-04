@@ -3,5 +3,11 @@
 <h1>Your Text:</h1>
 {{ fulltext }}
 
-<h1>Word Count:</h1>
-{{ wordDict }}
+<h1>Word Count Description:</h1>
+
+{% for word, counttotal in wordDict %}
+
+{{ word }}: {{ counttotal }}
+<br />
+
+{% endfor %}

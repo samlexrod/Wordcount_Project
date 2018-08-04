@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 import pandas as pd
+import operator
 
 def home(request):
     return render(request, 'home.html')
@@ -15,13 +16,14 @@ def count(request):
     for word in wordList:
         if word in wordDict:
             #Increase
-            wordDict[word][0] = wordDict[word][0] + 1
+            wordDict[word] += 1
         else:
             # Create list in dict
-            wordDict[word] = [1]
+            wordDict[word] = 1
 
     df = pd.DataFrame.from_dict(wordDict, orient='index')
 
-    print(df)
+    sorted_words = sorted(wordDict.items(), key=operator.itemgetter(1), reverse=True)
 
-    return render(request, 'count.html', {'fulltext':fulltext, 'count':len(wordList), 'wordDict':df})
+    return render(request, 'count.html', {'fulltext':fulltext, 'count':len(wordList), 
+                    'wordDict':sorted_words})
